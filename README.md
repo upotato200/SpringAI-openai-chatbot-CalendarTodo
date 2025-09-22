@@ -1,5 +1,7 @@
 # Cal-Todo-CRUD
 
+![Image](https://github.com/user-attachments/assets/bd37bf18-2ca4-4139-b50d-6bbc86bbd966)
+
 ## 개요
 캘린더와 할 일 관리를 통합한 웹 애플리케이션입니다. Spring Boot 기반으로 개발되었으며, AI 챗봇 기능과 일정 요약 기능을 제공합니다.
 
