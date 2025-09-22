@@ -1,0 +1,246 @@
+/* 애플스러운 기본: San Francisco 계열, 부드러운 그림자, 유리/블러, 둥근 모서리 */
+:root {
+  --cb-bg: rgba(250, 250, 252, 0.72);
+  --cb-stroke: rgba(0, 0, 0, 0.08);
+  --cb-text: #0b0c0f;
+  --cb-subtle: rgba(0, 0, 0, 0.55);
+  --cb-chip-bg: rgba(0, 0, 0, 0.06);
+  --cb-chip-text: #111;
+  --cb-glass-shadow: 0 8px 30px rgba(0,0,0,0.10), 0 2px 10px rgba(0,0,0,0.06);
+  --cb-accent: #0a84ff; /* iOS 시스템 블루 느낌 */
+  --cb-user: #007aff;
+  --cb-ai: #e9eef7;
+  --cb-input-bg: rgba(255,255,255,0.85);
+  --cb-input-stroke: rgba(0,0,0,0.08);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --cb-bg: rgba(22, 22, 24, 0.72);
+    --cb-stroke: rgba(255, 255, 255, 0.08);
+    --cb-text: #f5f6f7;
+    --cb-subtle: rgba(255,255,255,0.65);
+    --cb-chip-bg: rgba(255,255,255,0.08);
+    --cb-chip-text: #f0f0f0;
+    --cb-glass-shadow: 0 10px 34px rgba(0,0,0,0.55), 0 2px 10px rgba(0,0,0,0.35);
+    --cb-accent: #0a84ff;
+    --cb-user: #0a84ff;
+    --cb-ai: rgba(255,255,255,0.06);
+    --cb-input-bg: rgba(28,28,30,0.85);
+    --cb-input-stroke: rgba(255,255,255,0.08);
+  }
+}
+
+* { box-sizing: border-box; }
+.cb-subtle { color: var(--cb-subtle); font-size: 0.9rem; }
+
+/* FAB */
+.cb-fab {
+  position: fixed;
+  right: 20px;
+  bottom: 24px;
+  width: 56px;
+  height: 56px;
+  border: 0;
+  border-radius: 50%;
+  background: linear-gradient(180deg, #1f1f1f, #0f0f0f);
+  color: #fff;
+  cursor: pointer;
+  outline: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 12px 30px rgba(0,0,0,0.25);
+  transition: transform .15s ease, box-shadow .2s ease;
+  isolation: isolate;
+  z-index: 40;
+}
+.cb-fab:hover { transform: translateY(-2px); box-shadow: 0 16px 36px rgba(0,0,0,0.35); }
+.cb-fab:active { transform: translateY(0); }
+
+.cb-fab__dot {
+  width: 8px; height: 8px; border-radius: 50%;
+  background: #34c759; /* iOS 그린 */
+  box-shadow: 0 0 8px #34c759;
+}
+.cb-fab__glow {
+  position: absolute; inset: 0; border-radius: 50%;
+  background: radial-gradient(closest-side, rgba(52,199,89,.25), rgba(0,0,0,0));
+  filter: blur(8px); z-index: -1; opacity: .6;
+}
+
+/* Sheet Dim */
+.cb-sheet {
+  position: fixed;
+  inset: 0;
+  display: grid;
+  place-items: end center;
+  padding: 16px;
+  background: rgba(0,0,0,0.2);
+  backdrop-filter: blur(2px);
+  -webkit-backdrop-filter: blur(2px);
+  transition: opacity .25s ease;
+  z-index: 39;
+}
+
+/* Panel / Glass */
+.cb-panel {
+  width: min(680px, 100%);
+  max-height: calc(100dvh - 32px);
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  border-radius: 22px;
+  background: var(--cb-bg);
+  border: 1px solid var(--cb-stroke);
+  box-shadow: var(--cb-glass-shadow);
+  backdrop-filter: saturate(180%) blur(20px);
+  -webkit-backdrop-filter: saturate(180%) blur(20px);
+  color: var(--cb-text);
+  overflow: hidden;
+
+  transform: translateY(24px) scale(.98);
+  opacity: 0;
+  transition: transform .25s ease, opacity .25s ease;
+}
+
+/* Show/Hide states controlled via [data-open] on .cb-sheet */
+.cb-sheet[data-open="true"] .cb-panel {
+  transform: translateY(0) scale(1);
+  opacity: 1;
+}
+
+/* Header */
+.cb-header {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 14px 16px 12px;
+  border-bottom: 1px solid var(--cb-stroke);
+}
+.cb-header__titlewrap {
+  display: grid; gap: 2px;
+}
+.cb-header h2 {
+  font-size: 1.1rem; margin: 0; letter-spacing: -0.01em; font-weight: 600;
+}
+.cb-header__actions { display: flex; gap: 8px; align-items: center; }
+
+/* iOS Notch-ish detail */
+.cb-notch {
+  display: inline-block;
+  width: 56px; height: 10px; border-radius: 999px;
+  background: linear-gradient(180deg, rgba(0,0,0,0.25), rgba(0,0,0,0.05));
+  opacity: .3; margin-bottom: 4px;
+}
+
+/* Chips / Icons */
+.cb-chip {
+  padding: 6px 10px;
+  font-size: .85rem;
+  background: var(--cb-chip-bg);
+  color: var(--cb-chip-text);
+  border: 1px solid var(--cb-stroke);
+  border-radius: 999px;
+  cursor: pointer;
+  transition: background .2s ease, transform .1s ease;
+}
+.cb-chip:hover { transform: translateY(-1px); }
+.cb-iconbtn {
+  width: 28px; height: 28px; border-radius: 8px;
+  border: 1px solid var(--cb-stroke);
+  background: transparent; cursor: pointer;
+}
+
+/* Body (messages) */
+.cb-body {
+  padding: 16px;
+  overflow: auto;
+  display: grid; gap: 12px;
+  background:
+    linear-gradient(180deg, rgba(255,255,255,0.04), rgba(0,0,0,0)) 0 0/100% 120px no-repeat;
+}
+
+.cb-msg {
+  display: grid; gap: 6px; max-width: 80%;
+}
+.cb-msg--ai .cb-msg__bubble {
+  background: var(--cb-ai);
+  border: 1px solid var(--cb-stroke);
+  color: var(--cb-text);
+  border-top-left-radius: 6px;
+  border-top-right-radius: 16px;
+  border-bottom-right-radius: 16px;
+  border-bottom-left-radius: 16px;
+}
+.cb-msg--user { justify-self: end; }
+.cb-msg--user .cb-msg__bubble {
+  background: var(--cb-user);
+  color: white;
+  border: 1px solid rgba(255,255,255,0.15);
+  border-top-left-radius: 16px;
+  border-top-right-radius: 6px;
+  border-bottom-right-radius: 16px;
+  border-bottom-left-radius: 16px;
+}
+
+.cb-msg__bubble {
+  padding: 10px 12px;
+  line-height: 1.35;
+  font-size: .95rem;
+  box-shadow: 0 1px 0 rgba(0,0,0,0.05) inset;
+}
+
+.cb-time {
+  font-size: .75rem;
+  color: var(--cb-subtle);
+  justify-self: start;
+}
+.cb-msg--user .cb-time { justify-self: end; }
+
+/* Footer / Input */
+.cb-footer {
+  padding: 12px 12px 14px;
+  border-top: 1px solid var(--cb-stroke);
+  display: grid; gap: 8px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(0,0,0,0));
+}
+.cb-inputwrap {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 8px;
+  align-items: center;
+}
+.cb-input {
+  width: 100%;
+  height: 44px;
+  border-radius: 12px;
+  border: 1px solid var(--cb-input-stroke);
+  background: var(--cb-input-bg);
+  padding: 0 12px;
+  color: var(--cb-text);
+  outline: none;
+  transition: border-color .2s ease, box-shadow .2s ease;
+}
+.cb-input:focus {
+  border-color: rgba(10,132,255, .6);
+  box-shadow: 0 0 0 4px rgba(10,132,255,.12);
+}
+.cb-send {
+  height: 44px; min-width: 44px;
+  padding: 0 12px;
+  border-radius: 12px;
+  border: 1px solid var(--cb-stroke);
+  background: linear-gradient(180deg, rgba(255,255,255,0.15), rgba(0,0,0,0.02));
+  cursor: pointer; color: var(--cb-text);
+}
+.cb-hint {
+  margin: 0; font-size: .8rem; color: var(--cb-subtle); text-align: center;
+}
+
+/* 애니메이션 상태 토글 */
+.cb-sheet[hidden] { opacity: 0; pointer-events: none; }
+.cb-sheet:not([hidden]) { opacity: 1; }
+
+/* 작은 화면 대응 */
+@media (max-width: 480px) {
+  .cb-panel { border-radius: 18px; }
+  .cb-body { padding: 12px; }
+}

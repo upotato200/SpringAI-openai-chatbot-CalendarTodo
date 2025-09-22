@@ -1,0 +1,48 @@
+plugins {
+    id("java")
+    id("org.springframework.boot") version "3.5.6"
+    id("io.spring.dependency-management") version "1.1.6"
+}
+
+group = "com.best"
+version = "0.0.1-SNAPSHOT"
+
+java {
+    toolchain { languageVersion.set(JavaLanguageVersion.of(17)) }
+}
+
+repositories { 
+    mavenCentral()
+    maven { url 'https://repo.spring.io/milestone' }
+}
+
+dependencies {
+    implementation 'org.webjars:bootstrap:5.3.3'
+    implementation 'org.webjars.npm:sweetalert2:11.14.1'
+    // Web / Validation / Thymeleaf
+    implementation("org.springframework.boot:spring-boot-starter-web")
+    implementation("org.springframework.boot:spring-boot-starter-validation")
+    implementation("org.springframework.boot:spring-boot-starter-thymeleaf")
+
+    // JPA + PostgreSQL
+    implementation("org.springframework.boot:spring-boot-starter-data-jpa")
+    runtimeOnly("org.postgresql:postgresql")
+
+    // Spring AI (OpenAI) - 최신 안정 버전
+    implementation("org.springframework.ai:spring-ai-openai-spring-boot-starter:1.0.0-M4")
+
+    // .env 자동 로드(로컬 편의)
+    implementation("me.paulschwarz:spring-dotenv:4.0.0")
+
+    // Lombok
+    compileOnly("org.projectlombok:lombok")
+    annotationProcessor("org.projectlombok:lombok")
+
+    // Test (테스트만 H2 사용)
+    testImplementation("org.springframework.boot:spring-boot-starter-test")
+    testRuntimeOnly("com.h2database:h2")
+}
+
+tasks.test {
+    useJUnitPlatform()
+}
