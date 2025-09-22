@@ -10,7 +10,7 @@
 - **다크모드**: 라이트/다크 테마 지원
 - **반응형 디자인**: 모바일 및 데스크톱 환경 지원
 
-## 🛠 기술 스택
+## 기술 스택
 
 ### Backend
 - **Framework**: Spring Boot 3.5.6
@@ -37,7 +37,7 @@
 - Lombok
 - Spring DotEnv (환경변수 관리)
 
-## 🏗 아키텍처
+## 아키텍처
 프로젝트는 Clean Architecture 패턴을 따릅니다:
 
 ```
@@ -59,9 +59,7 @@ src/main/java/com/best/caltodocrud/
     └── persistence/      # 데이터 영속성
 ```
 
-## 🚀 시작하기
-
-### 필수 요구사항
+## 필수 요구사항
 - Java 17+
 - PostgreSQL
 - OpenAI API Key
@@ -96,7 +94,7 @@ OPENAI_API_KEY=your_openai_api_key
 5. **접속**
 브라우저에서 `http://localhost:8080`에 접속합니다.
 
-## 📁 주요 파일 구조
+## 주요 파일 구조
 
 ### API Endpoints
 - `GET /` - 메인 페이지
@@ -111,16 +109,6 @@ OPENAI_API_KEY=your_openai_api_key
 - `application.properties` - Spring Boot 설정
 - `build.gradle` - 프로젝트 의존성 및 빌드 설정
 - `.env-example` - 환경변수 템플릿
-
-## 🧪 테스트
-```bash
-./gradlew test
-```
-
-## 📦 빌드
-```bash
-./gradlew build
-```
 
 ## 🔧 개발 환경 설정
 - IDE: IntelliJ IDEA 권장
