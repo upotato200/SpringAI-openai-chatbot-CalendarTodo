@@ -1,8 +1,3 @@
-[phases.build]
-cmds = ["./gradlew clean build -x test"]
-
-[phases.start]
-cmd = "java -jar build/libs/caltodocrud-0.0.1-SNAPSHOT.jar"
-
 [variables]
 JAVA_VERSION = "17"
+GRADLE_OPTS = "-Dorg.gradle.daemon=false"

@@ -46,3 +46,15 @@ dependencies {
 tasks.test {
     useJUnitPlatform()
 }
+
+// Railway deployment optimizations
+tasks.build {
+    doLast {
+        println "Build completed. JAR location: ${tasks.bootJar.archiveFile.get()}"
+    }
+}
+
+// Ensure proper JAR naming for Railway
+tasks.bootJar {
+    archiveFileName = "${archiveBaseName.get()}-${archiveVersion.get()}.${archiveExtension.get()}"
+}
