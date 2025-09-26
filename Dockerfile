@@ -15,7 +15,7 @@ RUN chmod +x ./gradlew
 COPY src src
 
 # Build application (skip tests for faster build)
-RUN --mount=type=cache,id=s/b79c9253-b0d2-4ab4-9a75-056f89d83b65-/root/gradle,target=/root/.gradle \
+RUN --mount=type=cache,id=gradle-cache,target=/root/.gradle \
     ./gradlew clean build -x test
 
 # Production stage
