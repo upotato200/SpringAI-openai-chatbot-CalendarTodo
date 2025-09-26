@@ -21,13 +21,13 @@ RUN ./gradlew clean build -x test
 FROM eclipse-temurin:17-jre-alpine
 
 # Create non-root user for security
-RUN useradd -r -u 1001 -g root appuser
+RUN adduser -D -u 1001 appuser
 
 # Set working directory
 WORKDIR /app
 
 # Copy JAR from builder stage
-COPY --from=builder --chown=appuser:root /app/build/libs/caltodocrud-0.0.1-SNAPSHOT.jar app.jar
+COPY --from=builder --chown=appuser:appuser /app/build/libs/caltodocrud-0.0.1-SNAPSHOT.jar app.jar
 
 # Switch to non-root user
 USER appuser
