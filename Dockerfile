@@ -27,7 +27,7 @@ RUN adduser -D -u 1001 appuser
 WORKDIR /app
 
 # Copy JAR from builder stage
-COPY --from=builder --chown=appuser:appuser /app/build/libs/caltodocrud-0.0.1-SNAPSHOT.jar app.jar
+COPY --from=builder --chown=appuser:appuser /app/build/libs/Cal-Todo-CRUD-0.0.1-SNAPSHOT.jar app.jar
 
 # Switch to non-root user
 USER appuser
