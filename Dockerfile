@@ -1,0 +1,44 @@
+# Multi-stage build for Spring Boot application
+FROM openjdk:17-jdk-slim AS builder
+
+# Set working directory
+WORKDIR /app
+
+# Copy gradle wrapper and build files
+COPY gradle gradle
+COPY gradlew build.gradle settings.gradle ./
+
+# Make gradlew executable (Fix for permission denied error)
+RUN chmod +x ./gradlew
+
+# Copy source code
+COPY src src
+
+# Build application (skip tests for faster build)
+RUN --mount=type=cache,id=s/b79c9253-b0d2-4ab4-9a75-056f89d83b65-/root/gradle,target=/root/.gradle \
+    ./gradlew clean build -x test
+
+# Production stage
+FROM openjdk:17-jre-slim
+
+# Create non-root user for security
+RUN useradd -r -u 1001 -g root appuser
+
+# Set working directory
+WORKDIR /app
+
+# Copy JAR from builder stage
+COPY --from=builder --chown=appuser:root /app/build/libs/caltodocrud-0.0.1-SNAPSHOT.jar app.jar
+
+# Switch to non-root user
+USER appuser
+
+# Expose port
+EXPOSE 8080
+
+# Health check
+HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
+  CMD curl -f http://localhost:8080/actuator/health || exit 1
+
+# Run application
+ENTRYPOINT ["java", "-jar", "app.jar"]
